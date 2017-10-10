@@ -1,7 +1,7 @@
 /**
  * 
  */
-package mp3;
+package wav2mp3;
 
 import it.sauronsoftware.jave.AudioAttributes;
 import it.sauronsoftware.jave.Encoder;
@@ -12,7 +12,7 @@ import java.io.File;
 /**
  * @author Administrator
  * @copyright wgcwgc
- * @date 2017�?0�?�?
+ * @date 2017年10月9日
  * @time 下午4:48:59
  * @project_name tts_kdxf_demo
  * @package_name mp4
@@ -43,8 +43,8 @@ public class wav2mp3
 		File target = new File(desFileName);
 		AudioAttributes audio = new AudioAttributes();
 		audio.setCodec("libmp3lame");
-		audio.setBitRate(new Integer(128000)); // 音频比率 MP3默认是1280000
-//		audio.setBitRate(new Integer(36000)); // 音频比率 MP3默认是1280000
+		audio.setBitRate(new Integer(128000)); // 音频比率 MP3默认1280000
+//		audio.setBitRate(new Integer(36000)); // 音频比率 MP3默认1280000
 		audio.setChannels(new Integer(2));
 		audio.setSamplingRate(new Integer(44100));
 		EncodingAttributes attrs = new EncodingAttributes();

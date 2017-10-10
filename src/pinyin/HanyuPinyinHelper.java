@@ -39,6 +39,8 @@ public class HanyuPinyinHelper
 		String hanyupinyin = "";
 		HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
 		defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);// 输出拼音全部小写
+//		defaultFormat.setToneType(HanyuPinyinToneType.WITH_TONE_MARK);// 带声调
+//		defaultFormat.setVCharType(HanyuPinyinVCharType.WITH_U_UNICODE);
 		defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);// 不带声调
 		defaultFormat.setVCharType(HanyuPinyinVCharType.WITH_V);
 		try
@@ -47,8 +49,7 @@ public class HanyuPinyinHelper
 			{
 				if(String.valueOf(cl_chars[i]).matches("[\u4e00-\u9fa5]+"))
 				{// 如果字符是中文,则将中文转为汉语拼音
-					hanyupinyin += PinyinHelper.toHanyuPinyinStringArray(
-							cl_chars[i] , defaultFormat)[0];
+					hanyupinyin += PinyinHelper.toHanyuPinyinStringArray(cl_chars[i] , defaultFormat)[0];
 				}
 				else
 				{// 如果字符不是中文,则不转换
@@ -58,11 +59,45 @@ public class HanyuPinyinHelper
 		}
 		catch(BadHanyuPinyinOutputFormatCombination e)
 		{
+			e.printStackTrace();
 			System.out.println("字符不能转成汉语拼音");
 		}
 		return hanyupinyin;
 	}
-	
+
+	public static String getPinYin(String inputString)
+	{  
+        
+        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();  
+        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+        format.setToneType(HanyuPinyinToneType.WITH_TONE_MARK);
+        format.setVCharType(HanyuPinyinVCharType.WITH_U_UNICODE);
+  
+        char[] input = inputString.trim().toCharArray();  
+        StringBuffer output = new StringBuffer("");  
+  
+        try
+        {
+            for (int i = 0; i < input.length; i++)
+            {  
+                if (Character.toString(input[i]).matches("[\u4E00-\u9FA5]+"))
+                {  
+                    String[] temp = PinyinHelper.toHanyuPinyinStringArray(input[i], format);  
+                    output.append(temp[0]);
+                    output.append(" ");  
+                }
+                else  
+                    output.append(Character.toString(input[i]));  
+            }  
+        }
+        catch (BadHanyuPinyinOutputFormatCombination e)
+        {  
+            e.printStackTrace();  
+        }  
+        return output.toString();  
+    }  
+      
+
 	public static String getFirstLettersUp(String ChineseLanguage)
 	{
 		return getFirstLetters(ChineseLanguage , HanyuPinyinCaseType.UPPERCASE);
@@ -153,7 +188,7 @@ public class HanyuPinyinHelper
 	/**
 	 * 取第一个汉字的第一个字符
 	* @Title: getFirstLetter 
-	* @Description: TODO 
+	* @Description: 
 	* @return String   
 	* @throws
 	 */
@@ -197,6 +232,24 @@ public class HanyuPinyinHelper
 	public static void main(String [] args)
 	{
 		HanyuPinyinHelper hanyuPinyinHelper = new HanyuPinyinHelper();
-		System.out.println(hanyuPinyinHelper.toHanyuPinyin("多发的发独守空房阿道夫打发第三方"));
+		System.out.println(hanyuPinyinHelper.toHanyuPinyin("某些汉字句（韵母为三音时）不能转换成带音标的汉语拼音，可能是pinyin4j.jar的问题，也可能是字符集编码的问题..."));
+		System.out.println(getPinYin("某些汉字句（韵母为三音时）不能转换成带音标的汉语拼音，可能是pinyin4j.jar的问题，也可能是字符集编码的问题..."));
+		
+//	    {  
+//	        String chs = "我是中国人! I'm Chinese!";
+//	        System.out.println(chs);
+//	        System.out.println(getPinYin(chs));
+//	    }  
+//	    System.err.println("(NOTE)");
+//	    System.out.println("asdf");
+//	    try
+//		{
+//			int string = System.in.read();
+//			System.out.println(string);
+//		}
+//		catch(IOException e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
 }

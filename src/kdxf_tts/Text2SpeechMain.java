@@ -9,9 +9,10 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import mp3.wav2mp3;
+import log.PrintLog;
 import pinyin.HanyuPinyinHelper;
 import util.Util;
+import wav2mp3.wav2mp3;
 
 import com.iflytek.cloud.speech.SpeechConstant;
 import com.iflytek.cloud.speech.SpeechError;
@@ -50,6 +51,7 @@ public class Text2SpeechMain
 			if( ! file.exists())
 			{
 				System.out.println("源文件目录不存在");
+				PrintLog.printLog("源文件目录不存在");
 				return;
 			}
 			List <File> fileList = new ArrayList <File>();
@@ -65,23 +67,10 @@ public class Text2SpeechMain
 				for(int j = 0 ; ( tempString = bufferedReader.readLine() ) != null ; j ++ )
 				{
 					splite = tempString.split(" ");
-					path = list
-							.get(i)
-							.toString()
-							.substring(0 ,
-									list.get(i).toString().lastIndexOf("\\"))
-							+ "\\" + tempString + ".pcm";
+					path = list.get(i).toString().substring(0 ,list.get(i).toString().lastIndexOf("\\")) + "\\" + tempString + ".pcm";
 					if(splite.length > 1)
-						path = list
-								.get(i)
-								.toString()
-								.substring(
-										0 ,
-										list.get(i).toString()
-												.lastIndexOf("\\"))
-								+ "\\" + splite[1] + ".pcm";
-					System.out.println(list.get(i).toString() + " " + splite[0]
-							+ " " + ( j + 1 ) + "\n" + path);
+						path = list.get(i).toString().substring(0 , list.get(i).toString().lastIndexOf("\\")) + "\\" + splite[1] + ".pcm";
+					System.out.println(list.get(i).toString() + " " + splite[0]	+ " " + ( j + 1 ) + "\n" + path);
 					creat(splite[0] , path);
 					Thread.sleep(1 * 1000);
 				}
@@ -95,7 +84,9 @@ public class Text2SpeechMain
 		}
 		catch(Exception e)
 		{
+			PrintLog.printLog(e.toString());
 			e.printStackTrace();
+			
 		}
 	}
 	
@@ -143,6 +134,7 @@ public class Text2SpeechMain
 			if( ! file.exists())
 			{
 				System.out.println("源文件目录不存在");
+				PrintLog.printLog("源文件目录不存在");
 				return;
 			}
 			/**
@@ -154,13 +146,12 @@ public class Text2SpeechMain
 			String tempName = null;
 			String fileName = null;
 			HanyuPinyinHelper hanyuPinyinHelper = new HanyuPinyinHelper();
-//			System.out.println(hanyuPinyinHelper.toHanyuPinyin("多发的发独守空房阿道夫打发第三方"));
 			for(int i = 0 , leng = list.size() ; i < leng ; i ++ )
 			{
 				tempName = list.get(i).toString();
 				fileName = tempName.substring(tempName.lastIndexOf("\\") , tempName.lastIndexOf("."));
 //				System.out.println(Util.rootFile.toString().length() + "\n" + tempName.length());
-				targetPath = Util.targetFile + tempName.substring(tempName.indexOf("t2s"),	tempName.lastIndexOf("\\")) + hanyuPinyinHelper.toHanyuPinyin(fileName) + ".wav";
+				targetPath = Util.targetFile + tempName.substring(tempName.indexOf(Util.srcFile) + Util.srcFile.toString().length() , tempName.lastIndexOf("\\")) + hanyuPinyinHelper.toHanyuPinyin(fileName) + ".wav";
 				System.out.println(tempName + "\n" + targetPath);
 				if(! new File(targetPath).exists())
 				{
@@ -185,6 +176,7 @@ public class Text2SpeechMain
 		}
 		catch(Exception e)
 		{
+			PrintLog.printLog(e.toString());
 			e.printStackTrace();
 		}
 	}
@@ -210,6 +202,7 @@ public class Text2SpeechMain
 		}
 		catch(Exception e)
 		{
+			PrintLog.printLog(e.toString());
 			e.printStackTrace();
 		}
 	}

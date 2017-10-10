@@ -25,4 +25,6 @@ public class Util
 	public static final String srcFile = "C:\\Users\\Administrator\\Desktop\\t2s\\";
 //	public static final String targetFile = "C:\\Users\\Administrator\\Desktop\\t2s2\\out\\t2s\\五年级上册生词\\第一单元\\读读写写\\";
 	public static final String targetFile = "C:\\Users\\Administrator\\Desktop\\t2s2\\out\\";
+	
+	public static final String logPath = "C:\\Users\\Administrator\\Desktop\\t2s2\\out\\log.log";
 }
