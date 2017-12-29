@@ -184,7 +184,7 @@ public class Text2SpeechMain
 	/**
 	 * 
 	 */
-	private static void creat(String contents , String path)
+	public static void creat(String contents , String path)
 	{
 		SpeechSynthesizer mTts = SpeechSynthesizer.createSynthesizer();
 		mTts.setParameter(SpeechConstant.VOICE_NAME , "xiaoyan");// 设置发音人
@@ -192,6 +192,7 @@ public class Text2SpeechMain
 		mTts.setParameter(SpeechConstant.PITCH , "50");// 设置语调，范围0~100
 		mTts.setParameter(SpeechConstant.VOLUME , "80");// 设置音量，范围0~100
 		mTts.synthesizeToUri(contents , path , synthesizeToUriListener);
+//		System.out.println(contents + " " + path );
 	}
 	
 	public static void exchange(String srcPath , String targetPath)
