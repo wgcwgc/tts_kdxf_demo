@@ -120,8 +120,8 @@ public class SingleFileHttpServers extends Thread
 					System.out.println(str);
 					if(judge(str , 0))
 					{
-						String string = str.substring(str.indexOf("=") + 1 ,
-								str.indexOf("HTTP") - 1);
+						String string = str.substring(str.indexOf("GET /") + "GET /".length() ,
+								str.indexOf(" HTTP/"));
 						System.out.print(string);
 						string = URLDecoder.decode(string , "utf-8");
 						System.out.println(string);
@@ -266,10 +266,10 @@ public class SingleFileHttpServers extends Thread
 	 */
 	private boolean judge(String string , int flag)
 	{
-		// 判断是否包含有特定字符 “=”和 “HTTP”
+		// 判断是否包含有特定字符 “/”和 “HTTP/”
 		if(0 == flag)
 		{
-			if(string.contains("=") && string.contains("HTTP"))
+			if(string.contains("GET /") && string.contains(" HTTP/"))
 			{
 				return true;
 			}
