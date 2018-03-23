@@ -66,11 +66,15 @@ public class Text2SpeechMain
 				String path = null;
 				for(int j = 0 ; ( tempString = bufferedReader.readLine() ) != null ; j ++ )
 				{
-					splite = tempString.split(" ");
-					path = list.get(i).toString().substring(0 ,list.get(i).toString().lastIndexOf("\\")) + "\\" + tempString + ".pcm";
+					tempString = tempString.replace(" " , "");
+					tempString = tempString.replace("¡¡" , "");
+					System.out.println((i + 1) + "/" + leng + "\t" + tempString);
+					splite = tempString.trim().split(" ");
+					path = list.get(i).toString().substring(0 ,list.get(i).toString().lastIndexOf(".")) + "\\" + tempString + ".pcm";
 					if(splite.length > 1)
-						path = list.get(i).toString().substring(0 , list.get(i).toString().lastIndexOf("\\")) + "\\" + splite[1] + ".pcm";
-					System.out.println(list.get(i).toString() + " " + splite[0]	+ " " + ( j + 1 ) + "\n" + path);
+						path = list.get(i).toString().substring(0 , list.get(i).toString().lastIndexOf(".")) + "\\" + splite[1] + ".pcm";
+					System.out.println("splite[0]:" + list.get(i).toString() + " " + splite[0] + " " + ( j + 1 ) + "\npath:" + path);
+					PrintLog.printLog("splite[0]:" + list.get(i).toString() + " " + splite[0] + " " + ( j + 1 ) + "\npath:" + path);
 					creat(splite[0] , path);
 					Thread.sleep(1 * 1000);
 				}
@@ -172,7 +176,16 @@ public class Text2SpeechMain
 				wav2mp3.execute(new File(filepath) , filepath.substring( 0 , filepath.lastIndexOf(".")) + ".mp3");
 				new File(filepath).delete();
 			}
-			
+			/**
+			 * delete redundant filefolder
+			 */
+			String filefolder = null;
+			for(int i = 0 ; i < list.size() ; i ++ )
+			{
+				filefolder = list.get(i).toString();
+				filefolder = filefolder.substring(0 , filefolder.lastIndexOf("\\"));
+				new File(filefolder).delete();
+			}
 		}
 		catch(Exception e)
 		{
