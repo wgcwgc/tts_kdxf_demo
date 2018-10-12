@@ -37,17 +37,30 @@ import com.iflytek.cloud.speech.SynthesizeToUriListener;
 
 public class Text2SpeechMain
 {
+	public static String srcFile;
+	public static String targetFile;
+	
 	public Text2SpeechMain()
 	{
 		
 	}
 	
-	public static void play()
+	public static void play(String srcFileTemp , String targetFileTemp)
 	{
-		
+		if(srcFileTemp != null && targetFileTemp != null)
+		{
+			srcFile = srcFileTemp;
+			targetFile = targetFileTemp;
+		}
+		else
+		{
+			srcFile = Util.getSrcFile();
+			targetFile = Util.getTargetFile();
+		}
+//		System.out.println(srcFileTemp + "#" + srcFile + "#" + targetFileTemp + "#" + targetFile);
 		try
 		{
-			File file = new File(Util.srcFile);
+			File file = new File(srcFile);
 			if( ! file.exists())
 			{
 				System.out.println("源文件目录不存在");
@@ -55,7 +68,7 @@ public class Text2SpeechMain
 				return;
 			}
 			List <File> fileList = new ArrayList <File>();
-			List <File> list = getFileList(Util.srcFile , fileList , ".txt");
+			List <File> list = getFileList(srcFile , fileList , ".txt");
 			BufferedReader bufferedReader = null;
 			String tempString = null;
 			for(int i = 0 , leng = list.size() ; i < leng ; i ++ )
@@ -68,13 +81,28 @@ public class Text2SpeechMain
 				{
 					tempString = tempString.replace(" " , "");
 					tempString = tempString.replace("　" , "");
-					System.out.println((i + 1) + "/" + leng + "\t" + tempString);
+					System.out.println( ( i + 1 ) + "/" + leng + "\t"
+							+ tempString);
 					splite = tempString.trim().split(" ");
-					path = list.get(i).toString().substring(0 ,list.get(i).toString().lastIndexOf(".")) + "\\" + tempString + ".pcm";
+					path = list
+							.get(i)
+							.toString()
+							.substring(0 ,
+									list.get(i).toString().lastIndexOf("."))
+							+ "\\" + tempString + ".pcm";
 					if(splite.length > 1)
-						path = list.get(i).toString().substring(0 , list.get(i).toString().lastIndexOf(".")) + "\\" + splite[1] + ".pcm";
-					System.out.println("splite[0]:" + list.get(i).toString() + " " + splite[0] + " " + ( j + 1 ) + "\npath:" + path);
-					PrintLog.printLog("splite[0]:" + list.get(i).toString() + " " + splite[0] + " " + ( j + 1 ) + "\npath:" + path);
+						path = list
+								.get(i)
+								.toString()
+								.substring(0 ,
+										list.get(i).toString().lastIndexOf("."))
+								+ "\\" + splite[1] + ".pcm";
+					System.out.println("splite[0]:" + list.get(i).toString()
+							+ " " + splite[0] + " " + ( j + 1 ) + "\npath:"
+							+ path);
+					PrintLog.printLog("splite[0]:" + list.get(i).toString()
+							+ " " + splite[0] + " " + ( j + 1 ) + "\npath:"
+							+ path);
 					creat(splite[0] , path);
 					Thread.sleep(1 * 1000);
 				}
@@ -94,8 +122,8 @@ public class Text2SpeechMain
 		}
 	}
 	
-	public static List <File> getFileList(String srcPath , List <File> filelist ,
-			String name) throws Exception
+	public static List <File> getFileList(String srcPath ,
+			List <File> filelist , String name) throws Exception
 	{
 		File [] files = new File(srcPath).listFiles();
 		if(files != null)
@@ -128,13 +156,13 @@ public class Text2SpeechMain
 	{
 		try
 		{
-			File targetFileRoot = new File(Util.targetFile);
+			File targetFileRoot = new File(targetFile);
 			if( ! targetFileRoot.exists() || targetFileRoot.isDirectory())
 			{
 				targetFileRoot.mkdirs();
 			}
 			
-			File file = new File(Util.srcFile);
+			File file = new File(srcFile);
 			if( ! file.exists())
 			{
 				System.out.println("源文件目录不存在");
@@ -145,7 +173,7 @@ public class Text2SpeechMain
 			 * pcm2wav
 			 */
 			List <File> fileList = new ArrayList <File>();
-			List <File> list = getFileList(Util.srcFile , fileList , ".pcm");
+			List <File> list = getFileList(srcFile , fileList , ".pcm");
 			String targetPath = null;
 			String tempName = null;
 			String fileName = null;
@@ -153,11 +181,16 @@ public class Text2SpeechMain
 			for(int i = 0 , leng = list.size() ; i < leng ; i ++ )
 			{
 				tempName = list.get(i).toString();
-				fileName = tempName.substring(tempName.lastIndexOf("\\") , tempName.lastIndexOf("."));
+				fileName = tempName.substring(tempName.lastIndexOf("\\") ,
+						tempName.lastIndexOf("."));
 //				System.out.println(Util.rootFile.toString().length() + "\n" + tempName.length());
-				targetPath = Util.targetFile + tempName.substring(tempName.indexOf(Util.srcFile) + Util.srcFile.toString().length() , tempName.lastIndexOf("\\")) + hanyuPinyinHelper.toHanyuPinyin(fileName) + ".wav";
+				targetPath = targetFile
+						+ tempName.substring(tempName.indexOf(srcFile)
+								+ srcFile.toString().length() ,
+								tempName.lastIndexOf("\\"))
+						+ hanyuPinyinHelper.toHanyuPinyin(fileName) + ".wav";
 				System.out.println(tempName + "\n" + targetPath);
-				if(! new File(targetPath).exists())
+				if( ! new File(targetPath).exists())
 				{
 					new File(targetPath).getParentFile().mkdirs();
 				}
@@ -166,14 +199,19 @@ public class Text2SpeechMain
 			/**
 			 * wav2mp3
 			 */
-			List <File> wavFileList = new ArrayList<File>();
-			List <File> wavFileLists = getFileList(Util.targetFile , wavFileList , ".wav");
+			List <File> wavFileList = new ArrayList <File>();
+			List <File> wavFileLists = getFileList(targetFile , wavFileList ,
+					".wav");
 			String filepath = null;
 			for(int i = 0 , leng = wavFileLists.size() ; i < leng ; i ++ )
 			{
 				filepath = wavFileLists.get(i).toString();
-				System.out.println(filepath.substring( 0 , filepath.lastIndexOf(".")) + ".mp3");
-				wav2mp3.execute(new File(filepath) , filepath.substring( 0 , filepath.lastIndexOf(".")) + ".mp3");
+				System.out.println(filepath.substring(0 ,
+						filepath.lastIndexOf("."))
+						+ ".mp3");
+				wav2mp3.execute(new File(filepath) ,
+						filepath.substring(0 , filepath.lastIndexOf("."))
+								+ ".mp3");
 				new File(filepath).delete();
 			}
 			/**
@@ -183,7 +221,8 @@ public class Text2SpeechMain
 			for(int i = 0 ; i < list.size() ; i ++ )
 			{
 				filefolder = list.get(i).toString();
-				filefolder = filefolder.substring(0 , filefolder.lastIndexOf("\\"));
+				filefolder = filefolder.substring(0 ,
+						filefolder.lastIndexOf("\\"));
 				new File(filefolder).delete();
 			}
 		}
@@ -200,10 +239,14 @@ public class Text2SpeechMain
 	public static void creat(String contents , String path)
 	{
 		SpeechSynthesizer mTts = SpeechSynthesizer.createSynthesizer();
-		mTts.setParameter(SpeechConstant.VOICE_NAME , "xiaoyan");// 设置发音人
-		mTts.setParameter(SpeechConstant.SPEED , "50");// 设置语速
-		mTts.setParameter(SpeechConstant.PITCH , "50");// 设置语调，范围0~100
-		mTts.setParameter(SpeechConstant.VOLUME , "80");// 设置音量，范围0~100
+//		mTts.setParameter(SpeechConstant.VOICE_NAME , "xiaoyan");// 设置发音人
+//		mTts.setParameter(SpeechConstant.SPEED , "10");// 设置语速
+//		mTts.setParameter(SpeechConstant.PITCH , "50");// 设置语调，范围0~100
+//		mTts.setParameter(SpeechConstant.VOLUME , "80");// 设置音量，范围0~100
+		mTts.setParameter(SpeechConstant.VOICE_NAME , Util.getVoiceName());// 设置发音人
+		mTts.setParameter(SpeechConstant.SPEED , Util.getSpeed());// 设置语速
+		mTts.setParameter(SpeechConstant.PITCH , Util.getPitch());// 设置语调，范围0~100
+		mTts.setParameter(SpeechConstant.VOLUME , Util.getVolume());// 设置音量，范围0~100
 		mTts.synthesizeToUri(contents , path , synthesizeToUriListener);
 //		System.out.println(contents + " " + path );
 	}

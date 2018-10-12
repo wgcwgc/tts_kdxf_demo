@@ -32,7 +32,16 @@ public class Tts_java_demo
 	{
 		SpeechUtility.createUtility(SpeechConstant.APPID + "=59ce0194");
 //		String contentString = "”Ô“Ù∫œ≥…≤‚ ‘≥Ã–Ú";
-		Text2SpeechMain.play();
+		if(args.length == 0)
+		{
+//			args[0] = "C:\\Users\\Administrator\\Desktop\\";
+//			args[1] = "C:\\Users\\Administrator\\Desktop\\";
+			Text2SpeechMain.play(null , null);
+		}
+		else
+		{
+			Text2SpeechMain.play(args[0] , args[1]);
+		}
 //		Text2SpeechMain.beforeExchange();
 	}
 	

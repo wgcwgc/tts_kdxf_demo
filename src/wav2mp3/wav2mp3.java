@@ -58,8 +58,9 @@ public class wav2mp3
 	public static void main(String [] args) throws Exception
 	{
 		File file = new File(
-				"C://Users//Administrator//Desktop//t2s2//out//t2s//五年级上册生词//第一单元//读读记记//baochang.wav");
-		execute(file ,
-				"C://Users//Administrator//Desktop//t2s2//out//t2s//五年级上册生词//第一单元//读读记记//baochang.mp3");
+				"C://Users//Administrator//Desktop//18995689218.wav");
+		execute(file , "C://Users//Administrator//Desktop//18995689218.mp3");
+		
+		System.out.println("done");
 	}
 }

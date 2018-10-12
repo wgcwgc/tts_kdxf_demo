@@ -1,15 +1,14 @@
+package util;
 /**
  * 
  */
-package log;
+
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import util.Util;
 
 /**
  * @author           Administrator
@@ -33,9 +32,11 @@ public class PrintLog
 	{
 		try
 		{
-			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(Util.getTargetFile() + "log.log" , true));
+//			System.out.println("0");
+			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(Util.getRootPath() + "debug.log" , true));
+//			System.out.println("1");
 			contents = ( new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS")).format(Calendar.getInstance().getTime()) + "\r\n" + contents + "\r\n";
-			System.out.println(contents);
+//			System.out.println(contents);
 			bufferedWriter.write(contents);
 			bufferedWriter.close();
 		}

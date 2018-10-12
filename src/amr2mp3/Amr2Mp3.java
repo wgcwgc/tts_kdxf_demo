@@ -65,9 +65,9 @@ public class Amr2Mp3
 	 */
 	public static void main(String [] args)
 	{
-		String sourcePath = "E:\\Eclipse_Web\\lbtm\\webapp\\uploadFiles\\1395047224460.amr";
-		String targetPath = "E:\\Eclipse_Web\\lbtm\\webapp\\uploadFiles\\1395047224460.mp3";
-		changeToMp3(sourcePath , targetPath);
+		String sourcePath = "D:\\2018.04.13.16.09.04.amr";
+		String targetPath = "D:\\2018.04.13.16.09.04.mp3";
+		changeToMp3(sourcePath ,targetPath);
 	}
 	
 }

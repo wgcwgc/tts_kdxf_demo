@@ -1,0 +1,8 @@
+2018-10-12 14:32:48:429
+splite[0]:C:\Users\Administrator\Desktop\wgc\t2s\test\tt\0000.txt 见 1
+path:C:\Users\Administrator\Desktop\wgc\t2s\test\tt\0000\见.pcm
+2018-10-12 14:32:49:459
+splite[0]:C:\Users\Administrator\Desktop\wgc\t2s\test\tt\0000.txt 看见 2
+path:C:\Users\Administrator\Desktop\wgc\t2s\test\tt\0000\看见.pcm
+2018-10-12 14:32:50:512
+java.lang.NullPointerException
